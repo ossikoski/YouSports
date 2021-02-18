@@ -1,0 +1,103 @@
+Tämä tiedosto on tehty dokumentaatioksi projektia varten data.nba.net-sivustosta
+ja se sisältää projektin kannalta tärkeimmät json-tiedot.
+
+Pelin tilanne ja tilastot päivittyvät reaaliaikaisesti!
+pubDateTime on jokaisessa jsonissa päivitysaika.
+
+
+
+***/today.json:***
+-links:{
+	currentDate: "yyyymmdd"
+	todayScoreboard: "/prod/v1/20210212/scoreboard.json"
+	teams: "/prod/v2/2020/teams.json"
+	scoreboard: "/prod/v2/{{gameDate}}/scoreboard.json"
+	leagueRosterPlayers: "/prod/v2/2020/players.json"
+	boxscore: "/prod/v1/{{gameDate}}/{{gameId}}_boxscore.json"
+}
+
+
+
+***/{{date}}/scoreboard.json***
+-internal:{
+	pubDateTime
+}
+-games: [
+ {
+	gameId
+	isGameActivated: bool
+	statusNum: 1 = ei vielä alkanut, 2 = kesken, 3 = loppunut
+	isBuzzerBeater: bool
+	-hTeam/vTeam: {
+		teamId
+		triCode: "MIN"
+		win/loss
+		seriesWin/Loss
+		score
+	}
+ }, 
+  ...än jälkeen on watch/video/audio, jotka on suht turhia.
+]
+
+
+
+***/{{date}}/{{gameId}}_boxscore.json***
+-internal: {
+	pubDateTime
+}
+-basicGameData: {
+	Kaikki samat kuin scoreboardissa on.
+}
+-previousMatchup: {
+	gameId ja gameDate
+}
+-stats: {
+	-vTeam/hTeam: {
+		-totals: {
+			joukkueen tilastot
+		}
+		-leaders: {
+			points, rebounds, assists value ja players
+		}
+	}
+	-activePlayers: [	(lista pelaajista)
+	 {
+		personId
+		first/lastName
+		jersey
+		teamId
+		points
+		pos: voi olla tyhjä
+		player_code: etunimi_sukunimi lowecasena
+		...kaikki tilastot
+		dnp: tyhjä jos pelasi, jos ei pelannut niin string jossa syy
+	 }
+	]
+}
+
+
+
+***/2020/teams.json***
+-league {
+	-standard: [	(lista joukkueista)
+		fullName
+		tricode		(tässä pienellä, aiemmin camelCase)
+		conf/divName
+	]
+}
+
+
+
+***/2020/players.json***
+-league {
+	-standard [		(lista pelaajista)
+		{
+			first/lastName
+			personId
+			teamId
+			pos
+			yearsPro
+			country
+		}
+	]
+}
