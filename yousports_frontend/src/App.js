@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import statsNbaService  from './services/statsNba.js'
+import statsNbaService from './services/statsNba.js'
+
+import Nav from './components/Nav.js'
 
 let scoreboard = ''
 
@@ -12,17 +14,14 @@ const App = () => {
     statsNbaService
       .getScoreboard()
       .then(initialScoreBoard => {
-        console.log('initialscoreboard', initialScoreBoard.games[0].gameId)
         scoreboard = initialScoreBoard
         setSb(initialScoreBoard)
-        console.log('scoreboard after assigned', scoreboard)
       })
   }, [])
-  console.log('scoreboard outside useEffect', scoreboard)
 
   return (
     <div>
-      {console.log('scoreboard inside return', scoreboard.games)}
+      <Nav/>
       {scoreboard !== '' ?
         <div>
           {
