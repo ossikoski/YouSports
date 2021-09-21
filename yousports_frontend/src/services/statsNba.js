@@ -1,4 +1,6 @@
 import axios from 'axios'
+
+
 const baseUrl = 'http://data.nba.net/10s/prod'
 const todayUrl = `${baseUrl}/v1/today.json`
 const scoreboardUrl = (date) => {
@@ -18,4 +20,9 @@ const getScoreboard = () => {
     return request.then(response => response.data)
 }
 
-export default { getToday, getScoreboard }
+const getBoxScore = () => {
+    const request = axios.get(boxscoreUrl('20210216', '0022000427'))
+    return request.then(response => response.data)
+}
+
+export default { getToday, getScoreboard, getBoxScore }

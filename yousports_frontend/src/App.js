@@ -4,10 +4,13 @@ import statsNbaService from './services/statsNba.js'
 
 import Nav from './components/Nav.js'
 
+
 let scoreboard = ''
+let boxscore = ''
 
 const App = () => {
   const [sb, setSb] = useState('')
+  const [bs, setBs] = useState('')
 
   useEffect(() => {
     console.log('effect')
@@ -16,6 +19,12 @@ const App = () => {
       .then(initialScoreBoard => {
         scoreboard = initialScoreBoard
         setSb(initialScoreBoard)
+      })
+    statsNbaService
+      .getBoxScore()
+      .then(initialBoxScore => {
+        boxscore = initialBoxScore
+        setBs(initialBoxScore)
       })
   }, [])
 
@@ -36,17 +45,22 @@ const App = () => {
       :
         <div>Loading...</div>
       }
+
+      {boxscore !== '' ?
+        <div>
+            {
+              boxscore.stats.activePlayers.map(player =>
+                <li key={player.personId}>
+                  {player.firstName} {player.lastName}
+                </li>
+              )
+            }
+        </div>
+      :
+        <div>Loading...</div>
+      }
     </div>
   )
 }
-/*
-
-        {scoreboard.games.map(game => 
-        
-          <li key={gameId}>
-            {game.hTeam.triCode} {game.hTeam.score} - {game.vTeam.triCode} {game.vTeam.score}
-          </li>
-        )}
-*/
 
 export default App

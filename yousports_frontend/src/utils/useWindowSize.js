@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
 const useWindowsize = () => {
-    /*
-    if (typeof window !== "undefined"){
-        return {width: 1200, height: 800}
-    }
-    */
     const isSSR = (typeof window !== 'undefined')
 
     const [windowSize, setWindowSize] = useState({
@@ -14,7 +9,6 @@ const useWindowsize = () => {
     })
 
     const changeWindowSize = () => {
-        //console.log('w: ', window.innerWidth)
         setWindowSize({ width: window.innerWidth, height: window.innerHeight })
     }
 

@@ -7,7 +7,6 @@ import logoSimple from '../img/Yousports_logo_rect_black_middle_ball.png'
 
 const Nav = () => {
     const { width } = useWindowSize()
-    console.log('w: ', window.innerWidth)
     var loggedInUser = null
 
     if(loggedInUser === null){
