@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { Switch, Route } from 'react-router-dom'
 
 import statsNbaService from './services/statsNba.js'
 
 import Nav from './components/Nav.js'
+import Home from './components/Home.js'
 
 
 let scoreboard = ''
@@ -29,36 +31,44 @@ const App = () => {
   }, [])
 
   return (
-    <div>
+    <div className="App" style={{ backgroundColor: 'black' }}>
       <Nav/>
-      {scoreboard !== '' ?
-        <div>
-          {
-            scoreboard.games.map(game => 
-              <li key={game.gameId}>
-                {game.hTeam.triCode} {game.hTeam.score} - {game.vTeam.triCode} {game.vTeam.score}
-                
-              </li>
-            )
+      <Switch>
+        <Route path="/nba">
+          {scoreboard !== '' ?  // Example nba scores
+            <div style={{ color: 'white'}}>
+              {
+                scoreboard.games.map(game => 
+                  <li key={game.gameId}>
+                    {game.hTeam.triCode} {game.hTeam.score} - {game.vTeam.triCode} {game.vTeam.score}
+                    
+                  </li>
+                )
+              }
+            </div>
+          :
+            <div>Loading...</div>
           }
-        </div>
-      :
-        <div>Loading...</div>
-      }
 
-      {boxscore !== '' ?
-        <div>
-            {
-              boxscore.stats.activePlayers.map(player =>
-                <li key={player.personId}>
-                  {player.firstName} {player.lastName}
-                </li>
-              )
-            }
-        </div>
-      :
-        <div>Loading...</div>
-      }
+          {boxscore !== '' ?
+            <div style={{ color: 'white'}}>
+                {
+                  boxscore.stats.activePlayers.map(player =>
+                    <li key={player.personId}>
+                      {player.firstName} {player.lastName}
+                    </li>
+                  )
+                }
+            </div>
+          :
+            <div>Loading...</div>
+          }
+        </Route>
+        <Route path="/">
+          <Home/>
+        </Route>
+      </Switch>
+      
     </div>
   )
 }
