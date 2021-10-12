@@ -9,19 +9,22 @@ const scoreboardUrl = (date) => {
 const boxscoreUrl = (date, gameId) => {
     return `${baseUrl}/v1/${date}/${gameId}_boxscore.json`
 }
+const formatDate = (date) => {      // TODO Move to utils?
+    return `${date.getFullYear()}${"0" + (date.getMonth()+1).toString()}${date.getDate()}`
+}
 
 const getToday = () => {
     const request = axios.get(todayUrl)
     return request.then(response => response.data)
 }
 
-const getScoreboard = () => {
-    const request = axios.get(scoreboardUrl('20210216'))
+const getScoreboard = (date) => {
+    const request = axios.get(scoreboardUrl(formatDate(date)))
     return request.then(response => response.data)
 }
 
-const getBoxScore = () => {
-    const request = axios.get(boxscoreUrl('20210216', '0022000427'))
+const getBoxScore = (date) => {
+    const request = axios.get(boxscoreUrl(formatDate(date), '0022000427'))
     return request.then(response => response.data)
 }
 

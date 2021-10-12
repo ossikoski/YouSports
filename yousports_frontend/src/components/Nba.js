@@ -1,28 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import statsNbaService from '../services/statsNba.js'
+import store from '../store.js'
+import { initializeNbaStats } from '../reducers/nbaStatsReducer.js'
 
 
 const Nba = () => {
     const [sb, setSb] = useState('')
     const [bs, setBs] = useState('')
-    const [date, setThisDate] = useState(new Date(2021, 2, 16))
+    const [date, setThisDate] = useState(new Date(2021, 1, 16))
     const [dateOffset, setDateOffset] = useState(0)  // TODO
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(initializeNbaStats(date))
+    }, [dispatch])
   
     useEffect(() => {
-      console.log('effect')
-      statsNbaService
-        .getScoreboard()
-        .then(initialScoreBoard => {
-          setSb(initialScoreBoard)
-        })
-      statsNbaService
-        .getBoxScore()
-        .then(initialBoxScore => {
-          setBs(initialBoxScore)
-        })
+        console.log('effect')
+        statsNbaService
+            .getScoreboard(date)
+            .then(initialScoreBoard => {
+            setSb(initialScoreBoard)
+            })
+        statsNbaService
+            .getBoxScore(date)
+            .then(initialBoxScore => {
+            setBs(initialBoxScore)
+            })
     }, [])
+
+    
+    const notes = useSelector(state => state.nbaStats)
+    useEffect(() => {
+        //console.log("store state", store.getState())
+        console.log("store stats", notes)
+    })
 
     const prevDate = () => {
         var newDate = new Date()
@@ -72,7 +87,6 @@ const Nba = () => {
                 <div>Loading...</div>
             }
         </div>
-        
     )
 }
 
