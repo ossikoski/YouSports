@@ -4,10 +4,10 @@ const nbaStatsReducer = (state = [], action) => {
     console.log('state now: ', state)
     console.log('action', action)
     switch(action.type){
-    case 'INIT':
-        return action.data
-    default:
-        return state
+        case 'INIT':
+            return action.data
+        default:
+            return state
     }
 }
   
@@ -15,7 +15,7 @@ const nbaStatsReducer = (state = [], action) => {
         console.log("initialize")
         return async dispatch => {
             const scoreboard = await statsNbaService.getScoreboard(date)
-            console.log("scoreboard", scoreboard)
+            console.log("fetched sb", scoreboard)
             //const boxscore = await statsNbaService.getBoxScore(date)    // TODO
             dispatch({
                 type: 'INIT',

@@ -5,18 +5,16 @@ import { useDispatch } from 'react-redux'
 import Nav from './components/Nav.js'
 import Home from './components/Home.js'
 import Nba from './components/Nba.js'
-import initializeNbaStats from './reducers/nbaStatsReducer.js'
+import { initializeNbaStats } from './reducers/nbaStatsReducer.js'
 
 
 const App = () => {
-  /*
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(initializeNbaStats())
-  }, [])
-  */
-
+    var date = new Date(2021, 1, 16)
+    dispatch(initializeNbaStats(date))
+  }, [dispatch])
 
   return (
     <div className="App" style={{ backgroundColor: 'black' }}>

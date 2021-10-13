@@ -13,36 +13,15 @@ const Nba = () => {
     const [dateOffset, setDateOffset] = useState(0)  // TODO
 
     const dispatch = useDispatch()
+    var scoreboard = useSelector(board => board.nbaStats.games)
 
-    useEffect(() => {
-        dispatch(initializeNbaStats(date))
-    }, [dispatch])
-  
-    useEffect(() => {
-        console.log('effect')
-        statsNbaService
-            .getScoreboard(date)
-            .then(initialScoreBoard => {
-            setSb(initialScoreBoard)
-            })
-        statsNbaService
-            .getBoxScore(date)
-            .then(initialBoxScore => {
-            setBs(initialBoxScore)
-            })
-    }, [])
-
-    
-    const notes = useSelector(state => state.nbaStats)
-    useEffect(() => {
-        //console.log("store state", store.getState())
-        console.log("store stats", notes)
-    })
+    console.log('sb', scoreboard)
 
     const prevDate = () => {
         var newDate = new Date()
         newDate.setDate(date.getDate() - 1)
         setThisDate(newDate)
+        dispatch(initializeNbaStats(date))
         return
     }
 
@@ -50,6 +29,7 @@ const Nba = () => {
         var newDate = new Date(date)
         newDate.setDate(date.getDate() + 1)
         setThisDate(newDate)
+        dispatch(initializeNbaStats(date))
         return
     }
 
@@ -65,26 +45,19 @@ const Nba = () => {
             <div style={{ color: 'white'}}>{getDate(0)}</div>
             <button onClick={nextDate}>{getDate(1)}</button>
 
-            {(sb !== '' && bs !== '' )?  // Example nba scores and players
+            {(scoreboard !== '')?  // Example nba scores
                 <div style={{ color: 'white'}}>
                     {
-                        sb.games.map(game => 
+                        scoreboard.map(game => 
                             <li key={game.gameId}>
                             {game.hTeam.triCode} {game.hTeam.score} - {game.vTeam.triCode} {game.vTeam.score}
                             
                             </li>
                         )
                     }
-                    {
-                        bs.stats.activePlayers.map(player =>
-                            <li key={player.personId}>
-                                {player.firstName} {player.lastName}
-                            </li>
-                        )
-                    }
                 </div>
             :
-                <div>Loading...</div>
+                <div style={{ color: 'white'}}>Loading...</div>
             }
         </div>
     )
