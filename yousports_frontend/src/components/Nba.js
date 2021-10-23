@@ -7,10 +7,7 @@ import { initializeNbaStats } from '../reducers/nbaStatsReducer.js'
 
 
 const Nba = () => {
-    const [sb, setSb] = useState('')
-    const [bs, setBs] = useState('')
-    const [date, setThisDate] = useState(new Date(2021, 1, 16))
-    const [dateOffset, setDateOffset] = useState(0)  // TODO
+    const [date, setThisDate] = useState(new Date())
 
     const dispatch = useDispatch()
     var scoreboard = useSelector(board => board.nbaStats.games)
@@ -21,7 +18,7 @@ const Nba = () => {
         var newDate = new Date()
         newDate.setDate(date.getDate() - 1)
         setThisDate(newDate)
-        dispatch(initializeNbaStats(date))
+        dispatch(initializeNbaStats(newDate))
         return
     }
 
@@ -29,11 +26,11 @@ const Nba = () => {
         var newDate = new Date(date)
         newDate.setDate(date.getDate() + 1)
         setThisDate(newDate)
-        dispatch(initializeNbaStats(date))
+        dispatch(initializeNbaStats(newDate))
         return
     }
 
-    const getDate = (offset) => {
+    const getDateString = (offset) => {
         var wantedDate = new Date(date)
         wantedDate.setDate(date.getDate() + offset)
         return wantedDate.toLocaleDateString("en-GB", { year: 'numeric', month: 'numeric', day: 'numeric' })
@@ -41,9 +38,9 @@ const Nba = () => {
 
     return(
         <div>
-            <button onClick={prevDate}>{getDate(-1)}</button>
-            <div style={{ color: 'white'}}>{getDate(0)}</div>
-            <button onClick={nextDate}>{getDate(1)}</button>
+            <button onClick={prevDate}>{getDateString(-1)}</button>
+            <div style={{ color: 'white'}}>{getDateString(0)}</div>
+            <button onClick={nextDate}>{getDateString(1)}</button>
 
             {(scoreboard !== '')?  // Example nba scores
                 <div style={{ color: 'white'}}>

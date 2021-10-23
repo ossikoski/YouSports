@@ -12,10 +12,9 @@ const nbaStatsReducer = (state = [], action) => {
 }
   
   export const initializeNbaStats = (date) => {
-        console.log("initialize")
+        console.log("initialize", date)
         return async dispatch => {
             const scoreboard = await statsNbaService.getScoreboard(date)
-            console.log("fetched sb", scoreboard)
             //const boxscore = await statsNbaService.getBoxScore(date)    // TODO
             dispatch({
                 type: 'INIT',

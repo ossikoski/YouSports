@@ -10,7 +10,10 @@ const boxscoreUrl = (date, gameId) => {
     return `${baseUrl}/v1/${date}/${gameId}_boxscore.json`
 }
 const formatDate = (date) => {      // TODO Move to utils?
-    return `${date.getFullYear()}${"0" + (date.getMonth()+1).toString()}${date.getDate()}`
+    if(date.getMonth()+1 > 9)
+        return `${date.getFullYear()}${(date.getMonth()+1).toString()}${date.getDate()}`
+    else
+        return `${date.getFullYear()}${"0" + (date.getMonth()+1).toString()}${date.getDate()}`
 }
 
 const getToday = () => {

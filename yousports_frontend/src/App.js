@@ -12,7 +12,7 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    var date = new Date(2021, 1, 16)
+    var date = new Date()
     dispatch(initializeNbaStats(date))
   }, [dispatch])
 
