@@ -9,9 +9,11 @@ const Nba = () => {
     const [date, setThisDate] = useState(new Date())
 
     const dispatch = useDispatch()
-    var scoreboard = useSelector(state => state.nbaStats.games)
+    var scoreboard = useSelector(state => state.nbaStats.scoreboard.games)
+    var boxscore = useSelector(state => state.nbaStats.boxscore)
 
     console.log('sb', scoreboard)
+    console.log('bs', boxscore)
 
     const prevDate = () => {
         var newDate = new Date()
@@ -50,9 +52,25 @@ const Nba = () => {
                 <div style={{ color: 'white'}}>
                     {
                         scoreboard.map(game => 
-                            <li key={game.gameId}>
-                            {game.hTeam.triCode} {game.hTeam.score} - {game.vTeam.triCode} {game.vTeam.score}
                             
+                            <li key={game.gameId}>
+                                {game.hTeam.triCode} {game.hTeam.score} - {game.vTeam.triCode} {game.vTeam.score}
+                                <br></br>
+                                <div>
+                                    {(boxscore[game.gameId] !== undefined)?
+                                        <div style={{ marginLeft: 50 }}>
+                                            Top scorers:
+                                            <br></br>
+                                            <div style={{ marginLeft: 50}}>
+                                                {boxscore[game.gameId].hTeam.leaders.points.players[0].lastName}: {boxscore[game.gameId].hTeam.leaders.points.value}
+                                                <br></br>
+                                                {boxscore[game.gameId].vTeam.leaders.points.players[0].lastName}: {boxscore[game.gameId].vTeam.leaders.points.value}
+                                            </div>
+                                        </div>
+                                    :
+                                        <div></div>
+                                    }
+                                </div>
                             </li>
                         )
                     }

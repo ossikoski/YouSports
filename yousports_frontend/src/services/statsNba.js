@@ -14,8 +14,6 @@ const formatDate = (date) => {      // TODO Move to utils?
     var month_string = ''
 
     // One digit days and months need a zero to be added
-    console.log("formatDate", date)
-    console.log("formatDate", date.getDate(), "m: ", date.getMonth(), "y: ", date.getFullYear())
     if(date.getDate() > 9)
         day_string = date.getDate().toString()
     else
@@ -26,8 +24,6 @@ const formatDate = (date) => {      // TODO Move to utils?
         month_string = (date.getMonth()+1).toString()
     else
         month_string = "0" + (date.getMonth()+1).toString()
-
-    console.log("formatted date: ", `${date.getFullYear()}${month_string}${day_string}`)
 
     return `${date.getFullYear()}${month_string}${day_string}`
 }
@@ -42,8 +38,8 @@ const getScoreboard = (date) => {
     return request.then(response => response.data)
 }
 
-const getBoxScore = (date) => {
-    const request = axios.get(boxscoreUrl(formatDate(date), '0022000427'))  // Hardcoded game id
+const getBoxScore = (date, gameId) => {
+    const request = axios.get(boxscoreUrl(formatDate(date), gameId))
     return request.then(response => response.data)
 }
 
