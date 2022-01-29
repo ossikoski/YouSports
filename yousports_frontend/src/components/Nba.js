@@ -9,7 +9,7 @@ const Nba = () => {
     const [date, setThisDate] = useState(new Date())
 
     const dispatch = useDispatch()
-    var scoreboard = useSelector(board => board.nbaStats.games)
+    var scoreboard = useSelector(state => state.nbaStats.games)
 
     console.log('sb', scoreboard)
 
@@ -46,7 +46,7 @@ const Nba = () => {
             
             <br></br>
 
-            {(scoreboard !== '')?
+            {(scoreboard !== undefined)?
                 <div style={{ color: 'white'}}>
                     {
                         scoreboard.map(game => 
