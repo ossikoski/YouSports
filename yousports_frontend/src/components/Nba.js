@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import statsNbaService from '../services/statsNba.js'
-import store from '../store.js'
 import { initializeNbaStats } from '../reducers/nbaStatsReducer.js'
 
 
@@ -33,6 +31,7 @@ const Nba = () => {
     const getDateString = (offset) => {
         var wantedDate = new Date(date)
         wantedDate.setDate(date.getDate() + offset)
+
         return wantedDate.toLocaleDateString("en-GB", { year: 'numeric', month: 'numeric', day: 'numeric' })
     }
 
@@ -42,7 +41,7 @@ const Nba = () => {
             <div style={{ color: 'white'}}>{getDateString(0)}</div>
             <button onClick={nextDate}>{getDateString(1)}</button>
 
-            {(scoreboard !== '')?  // Example nba scores
+            {(scoreboard !== '')?
                 <div style={{ color: 'white'}}>
                     {
                         scoreboard.map(game => 
