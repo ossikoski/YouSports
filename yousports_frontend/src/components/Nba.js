@@ -8,13 +8,19 @@ import '../index.css'
 const Nba = () => {
     const [date, setThisDate] = useState(new Date())
 
-    const dispatch = useDispatch()
     var scoreboard = useSelector(state => state.nbaStats.scoreboard.games)
     var boxscore = useSelector(state => state.nbaStats.boxscore)
 
+    const dispatch = useDispatch()
+    
     console.log('sb', scoreboard)
     console.log('bs', boxscore)
 
+    /**
+     * When previous date button is clicked, this will change date state
+     * Will also clear scoreboard and boxscore variables to undefined
+     * @returns -
+     */
     const prevDate = () => {
         var newDate = new Date()
         newDate.setDate(date.getDate() - 1)
@@ -23,6 +29,11 @@ const Nba = () => {
         return
     }
 
+    /**
+     * When next date button is clicked, this will change date state
+     * Will also clear scoreboard and boxscore variables to undefined
+     * @returns -
+     */
     const nextDate = () => {
         var newDate = new Date(date)
         newDate.setDate(date.getDate() + 1)
@@ -31,6 +42,12 @@ const Nba = () => {
         return
     }
 
+    /**
+     * Current date + offset in right format for datebutton class
+     * 
+     * @param {number} offset The days to offset from current date
+     * @returns {string} Current date in format DD/MM/YYYY
+     */
     const getDateString = (offset) => {
         var wantedDate = new Date(date)
         wantedDate.setDate(date.getDate() + offset)
@@ -38,6 +55,20 @@ const Nba = () => {
         return wantedDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'numeric', day: 'numeric' })
     }
 
+    if(scoreboard.length === 0){
+        return(
+            <div style={{ color: 'white'}}><br></br>
+                <div>  {/*(style) text-align: center;*/}
+                    <button className='datebutton' onClick={prevDate}>{getDateString(-1)}</button>
+                    <div className='datebutton' style={{ color: 'white'}}>{getDateString(0)}</div>
+                    <button className='datebutton' onClick={nextDate}>{getDateString(1)}</button>
+                </div>
+                
+                <br></br>
+                No games played on this date
+            </div>
+        )
+    }
     return(
         <div><br></br>
             <div>  {/*(style) text-align: center;*/}
@@ -48,7 +79,7 @@ const Nba = () => {
             
             <br></br>
 
-            {(scoreboard !== undefined)?
+            {(scoreboard !== undefined && boxscore !== undefined)?
                 <div style={{ color: 'white'}}>
                     {
                         scoreboard.map(game => 
