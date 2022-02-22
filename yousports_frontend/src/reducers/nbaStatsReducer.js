@@ -9,31 +9,31 @@ const nbaStatsReducer = (state = [], action) => {
     }
 }
   
-  export const initializeNbaStats = (date) => {
-        console.log("initialize", date)
-        return async dispatch => {
-            const scoreboard = await statsNbaService.getScoreboard(date)
-            
+export const initializeNbaStats = (date) => {
+    return async dispatch => {
+        const scoreboard = await statsNbaService.getScoreboard(date)
+        var boxscores = {}
+        
+        // Only query boxscores if a game has been played on this date
+        if(scoreboard.numGames !== 0)
+        {
             // Go through all games and get boxscores
             var boxscore;
             var boxscores = {}
             for(var game of scoreboard.games){
                 boxscore = await statsNbaService.getBoxScore(date, game.gameId)
-                //console.log("game: ", boxscore)
                 boxscores[boxscore.basicGameData.gameId] = boxscore.stats
             }
-
-            //console.log("boxscores in init:" , boxscores)
-            //console.log("and scoreaboars", scoreboard)
-
-            dispatch({
-                type: 'INIT',
-                data: {
-                    scoreboard: scoreboard,
-                    boxscore: boxscores
-                }
-            })
         }
+
+        dispatch({
+            type: 'INIT',
+            data: {
+                scoreboard: scoreboard,
+                boxscore: boxscores
+            }
+        })
+    }
 }
   
 export default nbaStatsReducer
