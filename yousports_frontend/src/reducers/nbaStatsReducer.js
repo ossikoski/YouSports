@@ -1,8 +1,16 @@
 import statsNbaService from '../services/statsNba.js'
 
-const nbaStatsReducer = (state = [], action) => {
+const initialState = {
+    isLoaded: false,
+    scoreboard: {},
+    boxscore: {}
+}
+
+const nbaStatsReducer = (state = initialState, action) => {
     switch(action.type){
-        case 'INIT':
+        case 'FETCH_START':
+            return action.data
+        case 'FETCH_DONE':
             return action.data
         default:
             return state
@@ -11,6 +19,11 @@ const nbaStatsReducer = (state = [], action) => {
   
 export const initializeNbaStats = (date) => {
     return async dispatch => {
+        dispatch({
+            type: 'FETCH_START',
+            data: initialState
+        })
+
         const scoreboard = await statsNbaService.getScoreboard(date)
         var boxscores = {}
         
@@ -27,8 +40,9 @@ export const initializeNbaStats = (date) => {
         }
 
         dispatch({
-            type: 'INIT',
+            type: 'FETCH_DONE',
             data: {
+                isLoaded: true,
                 scoreboard: scoreboard,
                 boxscore: boxscores
             }
