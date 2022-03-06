@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 
 let test_data = [
   {
@@ -19,6 +20,8 @@ let test_data = [
 ]
 
 app.use(express.json())
+
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
